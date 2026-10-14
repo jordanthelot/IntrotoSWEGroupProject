@@ -1,117 +1,147 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.Authentication.PlayerAccounts;
 using Unity.Services.Core;
 using UnityEngine;
 
-// PBI 1: Test successful / failed account creation.
-// Runs Jordan's UsernamePasswordAuth.SignUpWithUsernamePasswordAsync against the real
-// Unity Authentication service and reports PASS/FAIL for each case in the Console.
+// PBI 1: Test successful / failed account creation (Unity Player Accounts).
 //
-// How to run: put this on an empty GameObject in a scene by itself (e.g. AuthTests),
-// press Play, and read the Console. UsernamePasswordAuth is added automatically.
+// The team uses Unity Player Accounts (Jordan's UnityPlayerAccountLogin). Creating the
+// Unity account itself happens on Unity's web page in the browser, so this test has two parts:
 //
-// Jordan's methods catch their own exceptions and return nothing, so each case checks
-// AuthenticationService.Instance.IsSignedIn afterwards: signed in = sign-up succeeded.
-// Red exception logs from UsernamePasswordAuth during the "should fail" cases are expected.
+//   Automated, no browser:
+//     1-2. Fake or empty Player Accounts tokens are rejected and no game account is created.
+//   Hand step:
+//     3.   Jordan's LogIn() opens the browser. Create a new account (or sign in) there.
+//          The test waits up to `browserTimeoutSeconds` for you to finish.
+//   Automated, after the hand step:
+//     3.   The player is signed in to the game with a player ID.
+//     4.   The game account was really created: signing out and signing back in with
+//          CreateAccount = false (sign-in only, can't create) returns the same player ID.
+//     5.   Pressing Login again while signed in does not create a second account.
 //
-// Rules tested (Unity docs, Username & Password provider):
-//   Username: 3-20 chars; letters, numbers, and . - @ _ only.
-//   Password: 8-30 chars; at least 1 lowercase, 1 uppercase, 1 number, 1 symbol.
-[RequireComponent(typeof(UsernamePasswordAuth))]
+// How to run: put this on an empty GameObject in the AuthTests scene and press Play.
+// Read the PASS/FAIL lines and the summary in the Console.
+// SignInWithUnityAsync API checked against com.unity.services.authentication 3.7.4.
+[RequireComponent(typeof(UnityPlayerAccountLogin))]
 public class AccountCreationTest : MonoBehaviour
 {
-    [Tooltip("Off: the test account is deleted at the end. On: it stays signed in, so you can test PBI 2 (session restore) next.")]
-    [SerializeField] private bool keepTestAccountSignedIn = false;
+    [Tooltip("How long to wait for you to finish the browser sign-up/sign-in.")]
+    [SerializeField] private float browserTimeoutSeconds = 180f;
 
-    private const string ValidPassword = "Wellness#2026";
+    [Tooltip("On: stay signed in at the end, so PBI 2 (session restore) can be tested next. Off: sign out.")]
+    [SerializeField] private bool keepSignedInForPbi2 = true;
 
-    private UsernamePasswordAuth auth;
-    private readonly List<string> results = new List<string>();
-    private int passed, failed;
+    private UnityPlayerAccountLogin login;
+    private TestReport report;
 
     private async void Start()
     {
-        auth = GetComponent<UsernamePasswordAuth>();
+        // RequireComponent only applies when the component is first added, so objects
+        // saved before the switch to Player Accounts may not have it yet.
+        login = GetComponent<UnityPlayerAccountLogin>();
+        if (login == null) login = gameObject.AddComponent<UnityPlayerAccountLogin>();
+        report = new TestReport("AccountCreationTest");
 
         try
         {
             if (UnityServices.State == ServicesInitializationState.Uninitialized)
                 await UnityServices.InitializeAsync();
 
-            ResetAuthState();
+            IAuthenticationService auth = AuthenticationService.Instance;
+            SignOutEverywhere();
 
-            // Unique per run, so the "new account" case never collides with a previous run.
-            string username = "test_" + DateTime.UtcNow.ToString("MMddHHmmss"); // 15 chars
+            // ---- Expected failures: no game account may be created ----
+            await ExpectRejected("Fake Player Accounts token is rejected", "not-a-real-token");
+            await ExpectRejected("Empty Player Accounts token is rejected", "");
 
-            // ---- Expected failures (account must NOT be created) ----
-            await ExpectSignUp("Username too short (2 chars)", "ab", ValidPassword, false);
-            await ExpectSignUp("Username has invalid characters", "bad name!", ValidPassword, false);
-            await ExpectSignUp("Username too long (21 chars)", new string('a', 21), ValidPassword, false);
-            await ExpectSignUp("Password too short (7 chars)", username + "x", "Ab1#xyz", false);
-            await ExpectSignUp("Password missing uppercase", username + "x", "wellness#2026", false);
-            await ExpectSignUp("Password missing number", username + "x", "Wellness#abcd", false);
-            await ExpectSignUp("Password missing symbol", username + "x", "Wellness2026", false);
+            // ---- Hand step: real account through the browser ----
+            Debug.Log("AccountCreationTest: HAND STEP. A browser window is opening. " +
+                      "Create a new Unity account (or sign in), then come back to Unity.");
+            login.LogIn();
 
-            // ---- Expected success ----
-            await ExpectSignUp("Valid new account", username, ValidPassword, true);
-
-            // ---- Duplicate username must fail ----
-            // Unity's docs don't state the exact error for a taken username; a PASS here
-            // means the service refused to create a second account with that name.
-            ResetAuthState();
-            await ExpectSignUp("Duplicate username", username, ValidPassword, false);
-
-            // ---- The created account works with Jordan's sign-in ----
-            ResetAuthState();
-            await auth.SignInWithUsernamePasswordAsync(username, ValidPassword);
-            Record("Sign in to the new account", AuthenticationService.Instance.IsSignedIn);
-
-            // ---- Cleanup ----
-            if (AuthenticationService.Instance.IsSignedIn && !keepTestAccountSignedIn)
+            float waited = 0f;
+            while (!auth.IsSignedIn && waited < browserTimeoutSeconds)
             {
-                await AuthenticationService.Instance.DeleteAccountAsync();
-                Debug.Log($"AccountCreationTest: deleted test account '{username}'.");
+                await Task.Delay(500);
+                waited += 0.5f;
+                if (this == null) return; // Play mode was stopped
             }
-            else if (keepTestAccountSignedIn)
+
+            bool signedIn = auth.IsSignedIn && !string.IsNullOrEmpty(auth.PlayerId);
+            report.Record("Account created and signed in through the browser", signedIn,
+                signedIn ? "" : $"not signed in after {browserTimeoutSeconds:0}s");
+
+            if (signedIn)
             {
-                Debug.Log($"AccountCreationTest: kept '{username}' / {ValidPassword} signed in for the PBI 2 test.");
+                string playerId = auth.PlayerId;
+                Debug.Log($"AccountCreationTest: game player ID {playerId}");
+
+                // ---- The account exists: sign-in-only returns the same player ----
+                auth.SignOut(); // keep the Player Accounts token
+                await auth.SignInWithUnityAsync(PlayerAccountService.Instance.AccessToken,
+                                                new SignInOptions { CreateAccount = false });
+                report.Record("Account was saved (sign-in-only finds the same player)",
+                    auth.IsSignedIn && auth.PlayerId == playerId,
+                    $"got {(auth.IsSignedIn ? auth.PlayerId : "not signed in")}");
+
+                // ---- Pressing Login again doesn't create a duplicate ----
+                login.LogIn(); // Jordan's code should refuse: already signed in
+                await Task.Delay(1000);
+                report.Record("Login while signed in keeps the same account",
+                    auth.IsSignedIn && auth.PlayerId == playerId,
+                    $"got {(auth.IsSignedIn ? auth.PlayerId : "not signed in")}");
+
+                if (!keepSignedInForPbi2)
+                {
+                    login.LogOut();
+                    Debug.Log("AccountCreationTest: signed out.");
+                }
+                else
+                {
+                    Debug.Log("AccountCreationTest: still signed in, ready for the PBI 2 session-restore test.");
+                }
             }
         }
         catch (Exception ex)
         {
-            Debug.LogError("AccountCreationTest: test run stopped early.");
+            report.Record("Test run finished without an unexpected error", false, ex.Message);
             Debug.LogException(ex);
         }
 
-        string summary = $"AccountCreationTest: {passed} passed, {failed} failed\n" + string.Join("\n", results);
-        if (failed == 0) Debug.Log(summary); else Debug.LogError(summary);
+        report.Summary();
     }
 
-    private async Task ExpectSignUp(string caseName, string username, string password, bool shouldSucceed)
+    // Signing in with a bad token must throw and must leave no signed-in player.
+    private async Task ExpectRejected(string caseName, string token)
     {
-        ResetAuthState();
-        await auth.SignUpWithUsernamePasswordAsync(username, password);
-        bool succeeded = AuthenticationService.Instance.IsSignedIn;
-        Record(caseName, succeeded == shouldSucceed,
-            $"expected {(shouldSucceed ? "success" : "failure")}, got {(succeeded ? "success" : "failure")}");
+        IAuthenticationService auth = AuthenticationService.Instance;
+        bool threw = false;
+        try
+        {
+            await auth.SignInWithUnityAsync(token);
+        }
+        catch (RequestFailedException)
+        {
+            threw = true;
+        }
+        catch (ArgumentException)
+        {
+            threw = true;
+        }
+
+        bool ok = threw && !auth.IsSignedIn;
+        report.Record(caseName, ok,
+            $"threw={threw}, signedIn={auth.IsSignedIn}");
+        SignOutEverywhere();
     }
 
-    // Jordan's methods refuse to run while signed in, so start every case signed out
-    // with no cached session.
-    private static void ResetAuthState()
+    private static void SignOutEverywhere()
     {
-        IAuthenticationService a = AuthenticationService.Instance;
-        if (a.IsSignedIn) a.SignOut();
-        if (a.SessionTokenExists) a.ClearSessionToken();
-    }
-
-    private void Record(string caseName, bool ok, string detail = "")
-    {
-        if (ok) passed++; else failed++;
-        string line = $"{(ok ? "PASS" : "FAIL")}  {caseName}{(ok || detail == "" ? "" : "  (" + detail + ")")}";
-        results.Add(line);
-        if (ok) Debug.Log("AccountCreationTest: " + line); else Debug.LogError("AccountCreationTest: " + line);
+        IAuthenticationService auth = AuthenticationService.Instance;
+        if (auth.IsSignedIn) auth.SignOut(true);
+        if (auth.SessionTokenExists) auth.ClearSessionToken();
+        if (PlayerAccountService.Instance.IsSignedIn) PlayerAccountService.Instance.SignOut();
     }
 }
