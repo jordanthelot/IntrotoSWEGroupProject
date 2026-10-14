@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 //
 // Unity docs: if a cached session token exists, SignInAnonymouslyAsync() refreshes it
 // regardless of whether the player signed in anonymously or through a platform provider
-// (Username & Password counts as a provider). It is only called when SessionTokenExists
+// (Unity Player Accounts counts as a provider). It is only called when SessionTokenExists
 // is true, so it never creates a new anonymous account.
 public class SessionRestorer : MonoBehaviour
 {
