@@ -1893,7 +1893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d5ca0723251485a8a477551fb6dbb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
-  gameSceneName: 
+  gameSceneName: CharacterSelection
   reflectionHistorySceneName: 
   accountSceneName: 
 --- !u!1660057539 &9223372036854775807
