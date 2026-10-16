@@ -3,10 +3,11 @@ using Unity.Services.Core;
 using UnityEngine;
 using System;
 using Unity.Services.Authentication.PlayerAccounts;
+using Unity.Services.CloudSave;
+using System.Collections.Generic;
 
 public class UnityPlayerAccountLogin : MonoBehaviour
-{
-    private IPlayerAccountService playerAccounts;
+{    private IPlayerAccountService playerAccounts;
     private bool loginInprogress;
     private bool completegamelogin;
 
@@ -31,9 +32,13 @@ public class UnityPlayerAccountLogin : MonoBehaviour
         //now we get to the case where the user is not signed in and needs to log in
         if (playerAccounts == null)
         {
+            await UnityServices.InitializeAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
             playerAccounts = PlayerAccountService.Instance;
             playerAccounts.SignedIn += OnPlayerAccountSignedIn;
             playerAccounts.SignInFailed += OnPlayerAccountSignInFailed;
+            var data = new Dictionary<string, object>{ { "MySaveKey", "Hello World" } };
+            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
 
         }
 
