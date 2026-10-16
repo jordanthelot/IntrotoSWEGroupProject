@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,8 +13,20 @@ public class SceneNavigation : MonoBehaviour
     {
         SceneManager.LoadScene("CreateAccount");
     }
+
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void GoToCharacterSelection()
+    {
+        SceneManager.LoadScene("CharacterSelection");
+    }
+
+    public void GoToGameplay()
+    {
+        SceneManager.LoadScene("Gameplay");
+    }
 }
+
