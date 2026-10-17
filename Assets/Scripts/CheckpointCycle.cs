@@ -8,7 +8,7 @@ using System;
 
 
 //this file handles the event that for some reason, a user session ends at the middle of a checkpoint, and we need to save their reflection status and load it for them when they come back
-public class SavedReflectionProgress : MonoBehaviour
+public class CheckpointCycle : MonoBehaviour
 {
     private static void CheckReady()
     {//simply seeing if unity's services are initialized, like authentication
@@ -23,18 +23,20 @@ public class SavedReflectionProgress : MonoBehaviour
     }
 
     //helper function to help us identify the reflecitons, utilizing a dictionary that will be defined later
-    private static string GetReflectionKey(string checkpointID)
+    private static string GetReflectionKey(string cycleId)
+{
+    if (string.IsNullOrWhiteSpace(cycleId))
     {
-        if (string.IsNullOrWhiteSpace(checkpointID))
-        {
-            throw new ArgumentException("A checkpointID is required.", nameof(checkpointID));
-        }
-        return $"reflection_{checkpointID}";
+        throw new ArgumentException(
+            "A cycleId is required.", nameof(cycleId));
     }
+
+    return $"reflectionCycle_{cycleId}";
+}
 
     //saving the reflection data at the specific checkpoint for the player
     //the whole point of reflectionmanager.cs is to define what goes in reflectionJson, in other words, what are actually saving from the reflections?
-    public async Task SaveReflectionAsync(string checkpointId, string reflectionJson)
+    public async Task SaveReflectionAsync(string cycleId, string reflectionJson)
     {
         CheckReady();
 
@@ -42,7 +44,7 @@ public class SavedReflectionProgress : MonoBehaviour
         {
             throw new ArgumentException("Reflection data is required.", nameof(reflectionJson));
         }
-        string key = GetReflectionKey(checkpointId);
+        string key = GetReflectionKey(cycleId);
 
         var data = new Dictionary<string, object>
         {
@@ -52,11 +54,11 @@ public class SavedReflectionProgress : MonoBehaviour
         await CloudSaveService.Instance.Data.Player.SaveAsync(data);
     }
 
-    public async Task<string> LoadReflectionAsync(string checkpointID)
+    public async Task<string> LoadReflectionAsync(string cycleID)
     {
         CheckReady();
 
-        string key = GetReflectionKey(checkpointID);
+        string key = GetReflectionKey(cycleID);
         var data = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string> { key });
 
         if (data.TryGetValue(key, out var savedReflection))

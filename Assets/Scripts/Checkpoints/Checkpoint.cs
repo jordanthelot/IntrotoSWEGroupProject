@@ -1,23 +1,26 @@
 
 using UnityEngine;
 
+//implemented most of amber's old code, but instead of this file calling on reflectionUI to open the reflection, it calls on reflectionmanager
 [RequireComponent(typeof(Collider2D))]
 public class Checkpoint : MonoBehaviour
 {
+
+    [Header("Checkpoint Identity")]
+    public string checkpointId = "test_checkpoint_1";
+    //dummy variable initialized with test_checkpoint_1- later on, it'll hold checkpointid that'll be given to reflection manager
+
+    //this part is still preserved from amber's original code
     [Header("Checkpoint Appearance")]
     public Color inactiveColor = Color.yellow;
     public Color activeColor = Color.green;
-    [Header("Reflection Question")]
-    public ReflectionUIManager reflectionUI;
-
-    [TextArea(2, 4)]
-    public string reflectionQuestion =
-        "How do you usually feel after spending a long time scrolling through social media?";
+    [Header("Reflection")]
+    public ReflectionManager reflectionManager;
+    //now calls reflectionmanager to handle creating the reflection
 
     private SpriteRenderer spriteRenderer;
-    private bool isActivated = false;
-
-    void Awake()
+    private bool isActivated;
+    void Awake()//same code from amber's previous file
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -31,35 +34,39 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isActivated)
-            return;
-
-        // Only activate when the Player enters
         if (!other.CompareTag("Player"))
             return;
 
-        isActivated = true;
-
-        // Save the player's current checkpoint
-        PlayerCheckpoint playerCheckpoint =
-            other.GetComponent<PlayerCheckpoint>();
-
-        if (playerCheckpoint != null)
+        // Set the respawn position and color once.
+        if (!isActivated)
         {
-            playerCheckpoint.SetCheckpoint(transform.position);
+            isActivated = true;
+             // Save the player's current checkpoint
+            PlayerCheckpoint playerCheckpoint =
+                other.GetComponent<PlayerCheckpoint>();
+
+
+            if (playerCheckpoint != null)
+            {
+                playerCheckpoint.SetCheckpoint(transform.position);
+            }
+
+            // Change checkpoint appearance
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = activeColor;
+            }
+
+            Debug.Log("Checkpoint activated: " + checkpointId);
         }
 
-        // Change checkpoint appearance
-        if (spriteRenderer != null)
+    
+        // The manager prevents already-answered questions from repeating.
+        if (reflectionManager != null)
         {
-            spriteRenderer.color = activeColor;
+            reflectionManager.OnCheckpointReached(checkpointId);//reflection manager now shows reflection
         }
-
-        Debug.Log("Checkpoint activated: " + gameObject.name);
-        if (reflectionUI != null)
-        {
-            reflectionUI.ShowReflection(reflectionQuestion);
-        }
-    }
+        //Reflectionmanager opens the reflectionUI
+}
 }
 
