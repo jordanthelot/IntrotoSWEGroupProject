@@ -11,10 +11,12 @@ public class ReflectionManager : MonoBehaviour
     [SerializeField] private ReflectionUIManager reflectionUI;
 
     [Header("Testing")]
-    [SerializeField] private string cycleId = "test_cycle_01";
+    private string cycleId;
     [SerializeField] private bool enableTestKeys = true;
 
     private CheckpointCycleVars currentCycle;
+
+    private ReflectionPlayerProgress playerProgress = new ReflectionPlayerProgress();
 
     private bool isBusy;//true while a save/load is happening
     private bool isActivityOpen;//true while a question is progress or reflection panel is showing
@@ -66,8 +68,9 @@ public class ReflectionManager : MonoBehaviour
 
         try
         {
-            string json =
-                await saveService.LoadReflectionAsync(cycleId);//fetches saved cycleprogress if it finds it
+            playerProgress = await saveService.LoadPlayerProgressAsync();
+            cycleId = $"cycle_{playerProgress.activeCycleNumber:D2}";
+            string json = await saveService.LoadReflectionAsync(cycleId);//making sure we load active cycle of question
 
             CheckpointCycleVars loaded;
 
@@ -161,9 +164,15 @@ public class ReflectionManager : MonoBehaviour
             return;
         }   
 
-        //this function should only activate while the game is collecting answers from the user
-        if (currentCycle.stage != ReflectionStage.CollectingAnswers)
+        //Don't repeat checkpoints from previous cycles
+        if(playerProgress.answeredCheckpointIds.Contains((checkpointId)))
             return;
+
+        //if we are not collecting answers and the current cycle is not yet completed, stop
+        if (currentCycle.stage != ReflectionStage.CollectingAnswers && currentCycle.stage != ReflectionStage.Completed)
+        {
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(checkpointId))
         {
@@ -190,7 +199,7 @@ public class ReflectionManager : MonoBehaviour
             return;
         }
 
-        if (currentCycle.questions.Count >= 3)//ignore function in this case, bc this means a reflection is about to be hit
+        if (currentCycle.stage == ReflectionStage.CollectingAnswers && currentCycle.questions.Count >= 3)//last check is to make sure a fourth question isn't added to the cycle
             return;
 
         isBusy = true;
@@ -200,10 +209,25 @@ public class ReflectionManager : MonoBehaviour
 
         try
         {
+            bool startingNewCycle = currentCycle.stage == ReflectionStage.Completed;
+            int nextCycleNumber = playerProgress.activeCycleNumber;
             //Copies the cycle data
-            CheckpointCycleVars updated =
-                JsonUtility.FromJson<CheckpointCycleVars>(
-                    JsonUtility.ToJson(currentCycle));
+            CheckpointCycleVars updated;
+
+            if (startingNewCycle)
+            {
+                nextCycleNumber++;
+                updated = new CheckpointCycleVars
+                {
+                    cycleId = $"cycle_{nextCycleNumber:D2}",
+                    stage = ReflectionStage.CollectingAnswers
+                };
+            }
+            else
+            {
+                updated = JsonUtility.FromJson<CheckpointCycleVars>(JsonUtility.ToJson(currentCycle));
+            }
+                
 
             int index = updated.questions.Count;
             //Creates a new InProgress question, and only shows said question on screen
@@ -219,7 +243,8 @@ public class ReflectionManager : MonoBehaviour
             updated.currentQuestionIndex = index;
 
 
-            await SaveCycleAsync(updated);
+
+            await SaveCycleAsync(updated, nextCycleNumber);
 
             isActivityOpen = true;
             reflectionUI.ShowReflection(question.questionText);//shows question on reflectionUI
@@ -347,14 +372,29 @@ public class ReflectionManager : MonoBehaviour
         cycle.stage = ReflectionStage.AwaitingPlayerReflection;
     }
 
-    private async Task SaveCycleAsync(CheckpointCycleVars updated)//what actually converts the cycle into a JSON object
+    private async Task SaveCycleAsync(CheckpointCycleVars updated, int? newCyclenumber = null)//what actually converts the cycle into a JSON object
     {
-        string json = JsonUtility.ToJson(updated);
+        //Work on a copy
+        ReflectionPlayerProgress updatedProgress = JsonUtility.FromJson<ReflectionPlayerProgress>(JsonUtility.ToJson(playerProgress));
 
-        await saveService.SaveReflectionAsync(updated.cycleId, json);
+        if (newCyclenumber.HasValue)
+        {
+            updatedProgress.activeCycleNumber = newCyclenumber.Value;
+        }
+            //Only including questions which have been answered
+            foreach (CheckpointQuestionData question in updated.questions)
+            {
+                if (question.status == QuestionStatus.Answered && !updatedProgress.answeredCheckpointIds.Contains(question.checkpointId))
+                {
+                    updatedProgress.answeredCheckpointIds.Add(question.checkpointId);
+                }
+            }
+            await saveService.SaveCycleAndPlayerProgressAsync(updated, updatedProgress);
 
+            currentCycle = updated;
+            playerProgress = updatedProgress;
+            cycleId = updated.cycleId;
         
-        currentCycle = updated;//only here is currentcycle is updated
     }
 
     private void Update()
@@ -374,7 +414,19 @@ public class ReflectionManager : MonoBehaviour
                 return;
             }
 
-            int nextCheckpointNumber = currentCycle.questions.Count + 1;
+            int nextCheckpointNumber;// initialize for testing
+
+            if (currentCycle.stage == ReflectionStage.Completed)
+            {
+                //Cycle 1 -> completed at checkpiont 4
+                nextCheckpointNumber = playerProgress.activeCycleNumber * 3 + 1;
+            }
+            else
+            {
+                nextCheckpointNumber = (playerProgress.activeCycleNumber - 1) * 3 + currentCycle.questions.Count + 1;
+            }
+
+
 
             OnCheckpointReached(
                 $"test_checkpoint_{nextCheckpointNumber}");
