@@ -538,6 +538,67 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &846489151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 846489154}
+  - component: {fileID: 846489153}
+  - component: {fileID: 846489152}
+  m_Layer: 0
+  m_Name: Reflection/QuestionSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &846489152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846489151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3badd96d58d4680afc6d0b8342f703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckpointCycle
+--- !u!114 &846489153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846489151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1354fb11940bb488fa0353f6e41e8224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReflectionManager
+  saveService: {fileID: 846489152}
+  reflectionUI: {fileID: 1748652479}
+  cycleId: test_cycle_04
+  enableTestKeys: 1
+--- !u!4 &846489154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846489151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866449173
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,11 +767,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47acf928b8c566e43b0aa1fcc04a0e02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
+  checkpointId: test_checkpoint_1
   inactiveColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   activeColor: {r: 0, g: 1, b: 0, a: 1}
-  reflectionUI: {fileID: 1748652479}
-  reflectionQuestion: How do you usually feel after spending a long time scrolling
-    through social media?
+  reflectionManager: {fileID: 846489153}
 --- !u!61 &902814443
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1622,6 +1682,8 @@ MonoBehaviour:
   reflectionPanel: {fileID: 1097897234}
   reflectionQuestionText: {fileID: 866449176}
   reflectionInputField: {fileID: 127861511}
+  statusText: {fileID: 0}
+  submitButton: {fileID: 1574141786}
   playerController: {fileID: 1483954447}
 --- !u!114 &1748652480
 MonoBehaviour:
@@ -2280,3 +2342,4 @@ SceneRoots:
   - {fileID: 902814445}
   - {fileID: 1748652483}
   - {fileID: 1814021928}
+  - {fileID: 846489154}
