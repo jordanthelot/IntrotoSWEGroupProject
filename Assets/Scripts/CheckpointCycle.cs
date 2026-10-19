@@ -22,20 +22,62 @@ public class CheckpointCycle : MonoBehaviour
         }
     }
 
-    //helper function to help us identify the reflecitons, utilizing a dictionary that will be defined later
-    private static string GetReflectionKey(string cycleId)
-{
-    if (string.IsNullOrWhiteSpace(cycleId))
+    private const string PlayerProgressKey = "reflection_player_progress";
+
+    public async Task<ReflectionPlayerProgress> LoadPlayerProgressAsync()// Call back to our class in  CheckpointCycleVars
     {
-        throw new ArgumentException(
-            "A cycleId is required.", nameof(cycleId));
+        CheckReady();
+
+        var data = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string> { PlayerProgressKey });
+
+        if (!data.TryGetValue(PlayerProgressKey, out var savedProgress))//data does not exist for this player
+        {
+            return new ReflectionPlayerProgress();
+        }
+
+        string json = savedProgress.Value.GetAs<string>();
+        ReflectionPlayerProgress progress = JsonUtility.FromJson<ReflectionPlayerProgress>(json);
+
+        if (progress == null || progress.activeCycleNumber < 1 || progress.answeredCheckpointIds == null)
+        {
+            throw new InvalidOperationException("Player has no saved progress");
+        }
+
+        return progress;
     }
 
-    return $"reflectionCycle_{cycleId}";
-}
+    public async Task SaveCycleAndPlayerProgressAsync(CheckpointCycleVars cycle, ReflectionPlayerProgress progress)
+    {
+        CheckReady();
+
+        if (cycle == null || progress == null)
+        {
+            throw new ArgumentException("Need data to save");
+        }
+
+        string cycleKey = GetReflectionKey(cycle.cycleId);
+
+        var data = new Dictionary<string, object>//data saved on unity cloud as key value pairs
+        {
+            {cycleKey, JsonUtility.ToJson(cycle)}, {PlayerProgressKey, JsonUtility.ToJson(progress)}
+        };
+
+        await CloudSaveService.Instance.Data.Player.SaveAsync(data);
+    }
+
+    //helper function to help us identify the reflecitons, utilizing a dictionary that will be defined later
+    private static string GetReflectionKey(string cycleId)
+    {
+        if (string.IsNullOrWhiteSpace(cycleId))
+        {
+            throw new ArgumentException(
+                "A cycleId is required.", nameof(cycleId));
+        }
+
+        return $"reflectionCycle_{cycleId}";
+    }
 
     //saving the reflection data at the specific checkpoint for the player
-    //the whole point of reflectionmanager.cs is to define what goes in reflectionJson, in other words, what are actually saving from the reflections?
     public async Task SaveReflectionAsync(string cycleId, string reflectionJson)
     {
         CheckReady();
@@ -68,4 +110,6 @@ public class CheckpointCycle : MonoBehaviour
 
         return null;
     }
+
+
 }

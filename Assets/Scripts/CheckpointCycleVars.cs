@@ -12,6 +12,13 @@ public enum QuestionStatus
     Skipped
 }
 
+[Serializable]
+public class ReflectionPlayerProgress//keeping track of how many reflections player has completed
+{
+    public int activeCycleNumber = 1;
+    public List<string> answeredCheckpointIds = new List<string>();
+}
+
 public enum ReflectionStage
 {
     CollectingAnswers,
