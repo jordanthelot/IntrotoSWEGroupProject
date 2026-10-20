@@ -1,0 +1,606 @@
+
+{
+  "questions": [
+    {
+      "questionId": "q001",
+      "questionText": "What are you usually hoping to get when you open social media?",
+      "topicTags": ["motivation", "needs"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q002",
+      "questionText": "What first drew you to your most-used social media app?",
+      "topicTags": ["motivation", "interests"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q003",
+      "questionText": "How has your reason for using social media changed over time?",
+      "topicTags": ["motivation", "change"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q004",
+      "questionText": "What need does social media meet for you on a difficult day?",
+      "topicTags": ["motivation", "mood"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q005",
+      "questionText": "What do you find online that is hard to find elsewhere?",
+      "topicTags": ["motivation", "connection"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q006",
+      "questionText": "What are you hoping will change when you refresh your feed?",
+      "topicTags": ["motivation", "habits"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q007",
+      "questionText": "What makes you choose scrolling when you have a spare minute?",
+      "topicTags": ["motivation", "habits"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q008",
+      "questionText": "What do you go online to learn or explore?",
+      "topicTags": ["motivation", "learning"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q009",
+      "questionText": "What would you miss most if your favorite platform disappeared?",
+      "topicTags": ["motivation", "connection"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q010",
+      "questionText": "What makes you choose social media over other ways of finding entertainment?",
+      "topicTags": ["motivation", "entertainment"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q011",
+      "questionText": "What usually happens right before you reach for a social media app?",
+      "topicTags": ["habits", "triggers"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q012",
+      "questionText": "When do you open social media without making a clear decision to?",
+      "topicTags": ["habits", "automatic_use"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q013",
+      "questionText": "Where do you tend to scroll longer than you intended?",
+      "topicTags": ["habits", "time"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q014",
+      "questionText": "How does being alone change the way you use social media?",
+      "topicTags": ["habits", "solitude"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q015",
+      "questionText": "How does being around other people change what you do online?",
+      "topicTags": ["habits", "social_context"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q016",
+      "questionText": "How does social media fit into the first few minutes of your morning?",
+      "topicTags": ["habits", "morning"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q017",
+      "questionText": "What role does social media play in your bedtime routine?",
+      "topicTags": ["habits", "sleep"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q018",
+      "questionText": "Which notifications feel hardest to leave unopened, and why?",
+      "topicTags": ["habits", "notifications"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q019",
+      "questionText": "What makes you switch between apps during the same break?",
+      "topicTags": ["habits", "app_switching"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q020",
+      "questionText": "What usually helps you notice it is time to stop scrolling?",
+      "topicTags": ["habits", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q021",
+      "questionText": "How do you tend to feel just before you start scrolling?",
+      "topicTags": ["mood", "anticipation"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q022",
+      "questionText": "How do you usually feel when you put your phone down after scrolling?",
+      "topicTags": ["mood", "after_scrolling"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q023",
+      "questionText": "What kind of content reliably lifts your mood?",
+      "topicTags": ["mood", "positive_content"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q024",
+      "questionText": "What kinds of posts leave you feeling worse, if any?",
+      "topicTags": ["mood", "negative_content"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q025",
+      "questionText": "When has social media helped you feel understood?",
+      "topicTags": ["mood", "connection"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q026",
+      "questionText": "How does your mood affect which accounts you seek out?",
+      "topicTags": ["mood", "content_choices"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q027",
+      "questionText": "What do you notice about your scrolling when you are stressed?",
+      "topicTags": ["mood", "stress"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q028",
+      "questionText": "How does reading the comments change your experience of a post?",
+      "topicTags": ["mood", "comments"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q029",
+      "questionText": "What tells you that you need a break from your feed?",
+      "topicTags": ["mood", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q030",
+      "questionText": "What helps you reset after an uncomfortable experience online?",
+      "topicTags": ["mood", "coping"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q031",
+      "questionText": "Who do you feel closer to because of social media?",
+      "topicTags": ["relationships", "closeness"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q032",
+      "questionText": "What makes an online conversation feel meaningful to you?",
+      "topicTags": ["relationships", "conversation"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q033",
+      "questionText": "Who do you keep up with online but rarely talk to directly?",
+      "topicTags": ["relationships", "passive_connection"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q034",
+      "questionText": "What makes you send someone a post instead of starting a conversation?",
+      "topicTags": ["relationships", "sharing"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q035",
+      "questionText": "How do you choose between messaging someone and commenting publicly?",
+      "topicTags": ["relationships", "communication"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q036",
+      "questionText": "What makes you feel supported by an online community?",
+      "topicTags": ["relationships", "support"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q037",
+      "questionText": "Who online makes you feel comfortable being yourself?",
+      "topicTags": ["relationships", "authenticity"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q038",
+      "questionText": "What changes when you talk to the same person online and in person?",
+      "topicTags": ["relationships", "offline_life"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q039",
+      "questionText": "What makes you keep following someone you no longer feel connected to?",
+      "topicTags": ["relationships", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q040",
+      "questionText": "Who would you want to stay close to if you stopped using social media?",
+      "topicTags": ["relationships", "closeness"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q041",
+      "questionText": "What expectations from friends influence how often you check social media?",
+      "topicTags": ["social_expectations", "peer_pressure"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q042",
+      "questionText": "What makes you feel expected to respond quickly to a message?",
+      "topicTags": ["social_expectations", "response_pressure"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q043",
+      "questionText": "What do you worry you might miss when you are offline?",
+      "topicTags": ["social_expectations", "fear_of_missing_out"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q044",
+      "questionText": "How do people around you react when you take a break from social media?",
+      "topicTags": ["social_expectations", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q045",
+      "questionText": "What makes you join a trend or challenge?",
+      "topicTags": ["social_expectations", "trends"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q046",
+      "questionText": "What makes you hesitate to mute or unfollow someone?",
+      "topicTags": ["social_expectations", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q047",
+      "questionText": "How does seeing an event you were not invited to affect you?",
+      "topicTags": ["social_expectations", "exclusion"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q048",
+      "questionText": "Whose social media habits have shaped your own?",
+      "topicTags": ["social_expectations", "peer_influence"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q049",
+      "questionText": "What would you use social media for if your friends were not on it?",
+      "topicTags": ["social_expectations", "motivation"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q050",
+      "questionText": "What makes it easy or difficult to put your phone away around others?",
+      "topicTags": ["social_expectations", "presence"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q051",
+      "questionText": "Who do you tend to compare yourself with online?",
+      "topicTags": ["comparison", "comparison_targets"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q052",
+      "questionText": "What part of your life do you compare most while scrolling?",
+      "topicTags": ["comparison", "life_comparison"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q053",
+      "questionText": "What do you remind yourself when someone's life online seems perfect?",
+      "topicTags": ["comparison", "perspective"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q054",
+      "questionText": "What makes another person's success feel inspiring to you?",
+      "topicTags": ["comparison", "inspiration"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q055",
+      "questionText": "How has your feed shaped your idea of being successful?",
+      "topicTags": ["comparison", "success"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q056",
+      "questionText": "What expectations about appearance do you notice in the content you see?",
+      "topicTags": ["comparison", "appearance"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q057",
+      "questionText": "What parts of your life matter to you even if they would not make an interesting post?",
+      "topicTags": ["comparison", "values"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q058",
+      "questionText": "What is something you like about yourself that your profile does not show?",
+      "topicTags": ["comparison", "self_worth"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q059",
+      "questionText": "What helps you separate what you want from what looks impressive online?",
+      "topicTags": ["comparison", "values"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q060",
+      "questionText": "Who helps you feel good about yourself without needing to post anything?",
+      "topicTags": ["comparison", "support"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q061",
+      "questionText": "What usually makes a moment feel worth sharing?",
+      "topicTags": ["self_presentation", "sharing"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q062",
+      "questionText": "Who do you picture seeing your posts?",
+      "topicTags": ["self_presentation", "audience"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q063",
+      "questionText": "What do you hope people understand about you from your profile?",
+      "topicTags": ["self_presentation", "identity"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q064",
+      "questionText": "What makes you decide to keep a moment private?",
+      "topicTags": ["self_presentation", "privacy"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q065",
+      "questionText": "How do you choose which version of a photo to post?",
+      "topicTags": ["self_presentation", "appearance"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q066",
+      "questionText": "What might make you edit or delete something you shared?",
+      "topicTags": ["self_presentation", "privacy"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q067",
+      "questionText": "What does a like or positive comment mean to you?",
+      "topicTags": ["self_presentation", "validation"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q068",
+      "questionText": "How do you feel when a post gets less attention than you expected?",
+      "topicTags": ["self_presentation", "validation"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q069",
+      "questionText": "What would you share if likes and follower counts were hidden?",
+      "topicTags": ["self_presentation", "authenticity"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q070",
+      "questionText": "How does thinking about posting affect the way you experience a moment?",
+      "topicTags": ["self_presentation", "presence"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q071",
+      "questionText": "What makes an account worth following for you?",
+      "topicTags": ["content_and_influence", "content_choices"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q072",
+      "questionText": "Whose opinions do you trust online, and what earns that trust?",
+      "topicTags": ["content_and_influence", "trust"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q073",
+      "questionText": "What kinds of people or perspectives rarely appear in your feed?",
+      "topicTags": ["content_and_influence", "diversity"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q074",
+      "questionText": "What makes you pause before sharing a claim you see online?",
+      "topicTags": ["content_and_influence", "information_literacy"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q075",
+      "questionText": "What makes an advertisement feel relevant or appealing to you?",
+      "topicTags": ["content_and_influence", "advertising"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q076",
+      "questionText": "What have you wanted to buy mainly because you kept seeing it online?",
+      "topicTags": ["content_and_influence", "spending"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q077",
+      "questionText": "What makes you keep watching content you do not actually enjoy?",
+      "topicTags": ["content_and_influence", "attention"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q078",
+      "questionText": "Which accounts encourage you to do something you value offline?",
+      "topicTags": ["content_and_influence", "values"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q079",
+      "questionText": "What kinds of posts seem to appear more often after you interact with them?",
+      "topicTags": ["content_and_influence", "recommendations"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q080",
+      "questionText": "What would you like to see more of in your feed?",
+      "topicTags": ["content_and_influence", "content_choices"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q081",
+      "questionText": "What do you tend to put off when you stay online longer than planned?",
+      "topicTags": ["offline_life", "procrastination"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q082",
+      "questionText": "What makes time on social media feel well spent?",
+      "topicTags": ["offline_life", "values"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q083",
+      "questionText": "What activity do you wish got as much attention as your feed?",
+      "topicTags": ["offline_life", "hobbies"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q084",
+      "questionText": "How does checking social media affect your focus when you return to a task?",
+      "topicTags": ["offline_life", "focus"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q085",
+      "questionText": "What do you notice around you when you leave your phone in your pocket?",
+      "topicTags": ["offline_life", "presence"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q086",
+      "questionText": "What would you do with ten minutes usually spent scrolling?",
+      "topicTags": ["offline_life", "time"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q087",
+      "questionText": "What hobbies or interests has social media helped you discover?",
+      "topicTags": ["offline_life", "hobbies"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q088",
+      "questionText": "Who would you like to spend more uninterrupted time with?",
+      "topicTags": ["offline_life", "relationships"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q089",
+      "questionText": "What helps you enjoy a quiet moment without reaching for your phone?",
+      "topicTags": ["offline_life", "habits"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q090",
+      "questionText": "What is one thing you enjoy doing without sharing it online?",
+      "topicTags": ["offline_life", "privacy"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q091",
+      "questionText": "What would a comfortable balance between online and offline time look like for you?",
+      "topicTags": ["balance", "desired_balance"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q092",
+      "questionText": "What part of your social media use would you like to keep?",
+      "topicTags": ["balance", "positive_use"],
+      "isOpeningQuestion": true
+    },
+    {
+      "questionId": "q093",
+      "questionText": "What is one habit you would like to change, if any?",
+      "topicTags": ["balance", "habit_change"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q094",
+      "questionText": "What could make it easier to use social media the way you want?",
+      "topicTags": ["balance", "intentional_use"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q095",
+      "questionText": "What personal boundary would help you feel more in control online?",
+      "topicTags": ["balance", "boundaries"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q096",
+      "questionText": "Who could support you if you wanted to change your social media habits?",
+      "topicTags": ["balance", "support"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q097",
+      "questionText": "What could you do when you reach for an app out of habit?",
+      "topicTags": ["balance", "habit_change"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q098",
+      "questionText": "What would make it easier to take a break without worrying about missing out?",
+      "topicTags": ["balance", "fear_of_missing_out"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q099",
+      "questionText": "How would you know your social media habits were working well for you?",
+      "topicTags": ["balance", "self_evaluation"],
+      "isOpeningQuestion": false
+    },
+    {
+      "questionId": "q100",
+      "questionText": "What is one small choice you want to make the next time you go online?",
+      "topicTags": ["balance", "small_steps"],
+      "isOpeningQuestion": false
+    }
+  ]
+}
+

@@ -17,6 +17,10 @@ public class ReflectionPlayerProgress//keeping track of how many reflections pla
 {
     public int activeCycleNumber = 1;
     public List<string> answeredCheckpointIds = new List<string>();
+
+    public string playthroughId = "";//this will be useful for keeping track of playthroughs so players who want to restart the game, can actually get new questions
+
+    public List<string> usedQuestionIds = new List<string>();
 }
 
 public enum ReflectionStage
