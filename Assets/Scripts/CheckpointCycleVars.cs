@@ -37,6 +37,9 @@ public class CheckpointQuestionData//reflects one question and it's response
     public string questionId;
     public string answerText = "";
     public QuestionStatus status = QuestionStatus.NotStarted;
+    //UTC timestamps in ISO 8601 ("o") format; empty until the moment happens
+    public string shownAtUtc = "";
+    public string answeredAtUtc = "";
 }
 
 [Serializable]
@@ -57,4 +60,6 @@ public class CheckpointCycleVars//represents an entire reflection and it's proce
     public string quoteAttribution = "";
     //players response to the ai's response
     public string playerReflectionText = "";
+    //UTC timestamp (ISO 8601) of when the player submitted their final reflection
+    public string completedAtUtc = "";
 }

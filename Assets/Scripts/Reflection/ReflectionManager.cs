@@ -236,7 +236,8 @@ public class ReflectionManager : MonoBehaviour
                 checkpointId = checkpointId,
                 questionId = $"test_question_{index + 1}",
                 questionText = testQuestions[index],
-                status = QuestionStatus.InProgress
+                status = QuestionStatus.InProgress,
+                shownAtUtc = UtcNow()//set once here, so reopening the question later keeps the original time
             };
 
             updated.questions.Add(question);
@@ -299,6 +300,7 @@ public class ReflectionManager : MonoBehaviour
                 //Update question status to answered, update the question index
                 question.answerText = answerText.Trim();
                 question.status = QuestionStatus.Answered;
+                question.answeredAtUtc = UtcNow();
 
                 updated.currentQuestionIndex = index + 1;
 
@@ -317,6 +319,7 @@ public class ReflectionManager : MonoBehaviour
             {
                 updated.playerReflectionText = answerText.Trim();
                 updated.stage = ReflectionStage.Completed;
+                updated.completedAtUtc = UtcNow();
             }
             else
             {
@@ -355,6 +358,9 @@ public class ReflectionManager : MonoBehaviour
                 reflectionUI.ShowError(error);
         }
     }
+
+    // ISO 8601 round-trip format, always UTC (ends in "Z"). JsonUtility can't save DateTime, so we store a string.
+    private static string UtcNow() => DateTime.UtcNow.ToString("o");
 
     // Temporary content, not an actual AI request.
     private void PrepareTestFeedback(CheckpointCycleVars cycle)
