@@ -1,14 +1,19 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Collections.Generic;
 
 //a cycle represents three questions that culminate in a final reflection response from the user
 
 public class ReflectionManager : MonoBehaviour
 {
     [Header("Connections")]
+
+    [SerializeField] private ReflectionAICall feedbackService;
     [SerializeField] private CheckpointCycle saveService;//calls back to the file for the necessary saving/loading functions
     [SerializeField] private ReflectionUIManager reflectionUI;
+
+    [SerializeField] private QuestionBankLogic questionBank;
 
     [Header("Testing")]
     private string cycleId;
@@ -21,20 +26,15 @@ public class ReflectionManager : MonoBehaviour
     private bool isBusy;//true while a save/load is happening
     private bool isActivityOpen;//true while a question is progress or reflection panel is showing
 
-    // Temporary questions until the question bank is ready.
-    private readonly string[] testQuestions =
-    {
-        "How are you feeling today?",
-        "What has been on your mind recently?",
-        "What is one thing you would like to give yourself more time for?"
-    };
+    // Temporary questions until the question bank is ready.- they were placed here
+   
 
     private void Awake()
     {
-        if (saveService == null || reflectionUI == null)
+        if (saveService == null || reflectionUI == null || questionBank == null || feedbackService == null) 
         {
             Debug.LogError(
-                "Assign the save service and reflection UI in the Inspector.");
+                "Assign the save service and reflection UI and question bank in the Inspector. Or the AI service");
 
             enabled = false;
             return;
@@ -69,8 +69,12 @@ public class ReflectionManager : MonoBehaviour
         try
         {
             playerProgress = await saveService.LoadPlayerProgressAsync();
+            if (playerProgress.usedQuestionIds == null)
+            {
+                playerProgress.usedQuestionIds = new List<string>();
+            }
             cycleId = $"cycle_{playerProgress.activeCycleNumber:D2}";
-            string json = await saveService.LoadReflectionAsync(cycleId);//making sure we load active cycle of question
+            string json = await saveService.LoadReflectionAsync(cycleId, playerProgress.playthroughId);//making sure we load active cycle of question
 
             CheckpointCycleVars loaded;
 
@@ -101,7 +105,7 @@ public class ReflectionManager : MonoBehaviour
             // If the player was awaiting feedback from the AI and the game closes, the placeholder feedback is generated
             if (loaded.stage == ReflectionStage.AwaitingFeedback)
             {
-                PrepareTestFeedback(loaded);
+                await PrepareFeedbackAsync(loaded);
                 await SaveCycleAsync(loaded);
             }
             else
@@ -230,16 +234,35 @@ public class ReflectionManager : MonoBehaviour
                 
 
             int index = updated.questions.Count;
+            //Load question, one that the user has not seen 
+            List<string> excludedQuestionIds = new List<string>(playerProgress.usedQuestionIds);
+
+            foreach (CheckpointQuestionData savedQuestion in updated.questions)
+            {
+                if (!excludedQuestionIds.Contains(savedQuestion.questionId))
+                {
+                    excludedQuestionIds.Add(savedQuestion.questionId);
+                }
+            }
+
+
+            bool openingQuestion = nextCycleNumber == 1 && index == 0;
+            QuestionDefinition selectedQuestion = questionBank.GetRandomQuestion(excludedQuestionIds, opening: openingQuestion);
+            if (selectedQuestion == null)
+            {
+                throw new InvalidOperationException("Every question has been used");
+            }
             //Creates a new InProgress question, and only shows said question on screen
             CheckpointQuestionData question = new CheckpointQuestionData
             {
                 checkpointId = checkpointId,
-                questionId = $"test_question_{index + 1}",
-                questionText = testQuestions[index],
+                questionId = selectedQuestion.questionId,
+                questionText = selectedQuestion.questionText,
                 status = QuestionStatus.InProgress,
                 shownAtUtc = UtcNow()//set once here, so reopening the question later keeps the original time
             };
 
+    
             updated.questions.Add(question);
             updated.currentQuestionIndex = index;
 
@@ -311,7 +334,7 @@ public class ReflectionManager : MonoBehaviour
 
                 //This feedback is supposed to be the AI's response
                 if (allThreeAnswered)
-                    PrepareTestFeedback(updated);
+                    await PrepareFeedbackAsync(updated);
             }
             //if the submit button is hit after the player submits there reflection, process is complete
             else if (
@@ -363,18 +386,14 @@ public class ReflectionManager : MonoBehaviour
     private static string UtcNow() => DateTime.UtcNow.ToString("o");
 
     // Temporary content, not an actual AI request.
-    private void PrepareTestFeedback(CheckpointCycleVars cycle)
+    private async Task PrepareFeedbackAsync(CheckpointCycleVars cycle)
     {
-        cycle.AIResponse =
-            "[TEST FEEDBACK — NOT GENERATED BY AI]\n" +
-            "Thank you for answering the three questions. " +
-            "Which answer stands out to you, and why?";
+        ReflectionFeedbackData feedback = await feedbackService.GenerateFeedbackAsync(cycle.questions);
 
-        cycle.quoteText =
-            "You can take one small step without knowing the whole path.";
-
-        cycle.quoteAttribution = "Original placeholder text";
-
+        cycle.AIResponse = feedback.AIresponse;
+        cycle.quoteId = feedback.quoteId;
+        cycle.quoteText = feedback.quoteText;
+        cycle.quoteAttribution = feedback.quotefrom;
         cycle.stage = ReflectionStage.AwaitingPlayerReflection;
     }
 
@@ -383,6 +402,10 @@ public class ReflectionManager : MonoBehaviour
         //Work on a copy
         ReflectionPlayerProgress updatedProgress = JsonUtility.FromJson<ReflectionPlayerProgress>(JsonUtility.ToJson(playerProgress));
 
+        if (updatedProgress.usedQuestionIds == null)
+        {
+            updatedProgress.usedQuestionIds = new List<string>();
+        }
         if (newCyclenumber.HasValue)
         {
             updatedProgress.activeCycleNumber = newCyclenumber.Value;
@@ -390,10 +413,14 @@ public class ReflectionManager : MonoBehaviour
             //Only including questions which have been answered
             foreach (CheckpointQuestionData question in updated.questions)
             {
+            if (!updatedProgress.usedQuestionIds.Contains(question.questionId))
+            {
+                updatedProgress.usedQuestionIds.Add(question.questionId);
+            }
                 if (question.status == QuestionStatus.Answered && !updatedProgress.answeredCheckpointIds.Contains(question.checkpointId))
-                {
-                    updatedProgress.answeredCheckpointIds.Add(question.checkpointId);
-                }
+            {
+                updatedProgress.answeredCheckpointIds.Add(question.checkpointId);
+            }
             }
             await saveService.SaveCycleAndPlayerProgressAsync(updated, updatedProgress);
 
