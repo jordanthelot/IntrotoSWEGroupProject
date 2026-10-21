@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
 
     private float footstepTimer = 0f;
 
+    // Optional: lets an automated test drive the player instead of the keyboard.
+    // Leave null in the game (the keyboard is used).
+    public IPlayerInputSource inputOverride;
+
     private Rigidbody2D rb;
     private float horizontalInput;
     private bool isGrounded;
@@ -38,7 +42,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Left and right movement
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        horizontalInput = inputOverride != null
+            ? inputOverride.Horizontal
+            : Input.GetAxisRaw("Horizontal");
 
         // Check whether the player is on the ground
         isGrounded = Physics2D.OverlapCircle(
@@ -48,7 +54,11 @@ public class PlayerController : MonoBehaviour
         );
 
         // Jump when Space is pressed
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        bool jumpPressed = inputOverride != null
+            ? inputOverride.ConsumeJumpPressed()
+            : Input.GetButtonDown("Jump");
+
+        if (jumpPressed && isGrounded)
         {
             jumpRequested = true;
         }

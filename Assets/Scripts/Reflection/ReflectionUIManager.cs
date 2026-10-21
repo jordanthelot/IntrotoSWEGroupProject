@@ -20,6 +20,9 @@ public class ReflectionUIManager : MonoBehaviour
     public event Action<string> ResponseSubmitted;
 
     private bool isOpen;
+
+    // True while the reflection panel is showing (used by tests).
+    public bool IsOpen => isOpen;
     private bool isBusy;// set to true when the game is saving/loading something
     private float previousTimeScale;//restores the previous game speed
   
@@ -82,11 +85,11 @@ public class ReflectionUIManager : MonoBehaviour
         if (!isOpen || isBusy)
             return;
 
-        string response = reflectionInputField.text.Trim();
-
-        if (string.IsNullOrEmpty(response))
+        // PBI 6 (Soni): validate the answer before it goes to ReflectionManager.
+        // Trims spaces, rejects empty / punctuation-only / over-500-character answers.
+        if (!ResponseValidator.Validate(reflectionInputField.text, out string response, out string error))
         {
-            ShowError("Please enter a response before continuing.");//changed to showerror to show the player the eror msg
+            ShowError(error);
             return;
         }
 
