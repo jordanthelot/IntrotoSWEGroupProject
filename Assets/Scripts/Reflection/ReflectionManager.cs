@@ -246,8 +246,18 @@ public class ReflectionManager : MonoBehaviour
             }
 
 
-            bool openingQuestion = nextCycleNumber == 1 && index == 0;
-            QuestionDefinition selectedQuestion = questionBank.GetRandomQuestion(excludedQuestionIds, opening: openingQuestion);
+            //The first cycle of every playthrough always uses the control questions, in order (set in QuestionBank.json)
+            QuestionDefinition selectedQuestion = null;
+            if (nextCycleNumber == 1)
+            {
+                selectedQuestion = questionBank.GetControlQuestion(index);
+            }
+            //Otherwise, or if there are no control questions, pick a random unseen question
+            if (selectedQuestion == null)
+            {
+                bool openingQuestion = nextCycleNumber == 1 && index == 0;
+                selectedQuestion = questionBank.GetRandomQuestion(excludedQuestionIds, opening: openingQuestion);
+            }
             if (selectedQuestion == null)
             {
                 throw new InvalidOperationException("Every question has been used");
