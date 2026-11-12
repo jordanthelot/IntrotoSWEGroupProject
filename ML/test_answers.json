@@ -1,0 +1,32 @@
+{
+  "_note": "Draft tweet-style test answers for the 3 control questions. Edit freely; rerun evaluate_combinations.py to regenerate the report.",
+  "questions": [
+    {
+      "questionId": "q022",
+      "questionText": "How do you usually feel when you put your phone down after scrolling?",
+      "answers": {
+        "positive": "honestly pretty good, feel caught up w my friends and kinda recharged lol",
+        "neutral": "idk normal i guess, just go do whatever's next",
+        "negative": "lowkey awful. drained and anxious, like i wasted my whole night again"
+      }
+    },
+    {
+      "questionId": "q013",
+      "questionText": "Where do you tend to scroll longer than you intended?",
+      "answers": {
+        "positive": "in bed but tbh i love it, best part of my day, so many funny vids",
+        "neutral": "usually in bed or on the bus",
+        "negative": "in bed every night and i hate it, i cant stop and i feel so gross after"
+      }
+    },
+    {
+      "questionId": "q031",
+      "questionText": "Who do you feel closer to because of social media?",
+      "answers": {
+        "positive": "my best friend who moved away!! we send memes all day and it makes me so happy",
+        "neutral": "some cousins i guess, we follow each other",
+        "negative": "nobody really. everyone posts their perfect lives and i just feel lonely and left out"
+      }
+    }
+  ]
+}

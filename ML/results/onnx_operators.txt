@@ -1,0 +1,28 @@
+Operators used by SamLowe/roberta-base-go_emotions-onnx (onnx/model.onnx), opset 11.
+Check each against Unity Inference Engine supported operators before integrating.
+
+Add  x173
+Cast  x3
+Concat  x1
+CumSum  x1
+Div  x49
+Equal  x2
+Erf  x12
+Expand  x1
+Gather  x6
+Gemm  x2
+MatMul  x96
+Mul  x51
+Not  x1
+Pow  x25
+ReduceMean  x50
+Reshape  x49
+Shape  x1
+Slice  x1
+Softmax  x12
+Sqrt  x25
+Sub  x26
+Tanh  x1
+Transpose  x48
+Unsqueeze  x4
+Where  x1
