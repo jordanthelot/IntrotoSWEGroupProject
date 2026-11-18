@@ -1,0 +1,968 @@
+{
+ "groupScoring": "sum",
+ "labels": [
+  "admiration",
+  "amusement",
+  "anger",
+  "annoyance",
+  "approval",
+  "caring",
+  "confusion",
+  "curiosity",
+  "desire",
+  "disappointment",
+  "disapproval",
+  "disgust",
+  "embarrassment",
+  "excitement",
+  "fear",
+  "gratitude",
+  "grief",
+  "joy",
+  "love",
+  "nervousness",
+  "optimism",
+  "pride",
+  "realization",
+  "relief",
+  "remorse",
+  "sadness",
+  "surprise",
+  "neutral"
+ ],
+ "answers": [
+  {
+   "questionId": "q022",
+   "kind": "positive",
+   "text": "honestly pretty good, feel caught up w my friends and kinda recharged lol",
+   "tokenIds": [
+    0,
+    298,
+    28180,
+    352,
+    1256,
+    205,
+    6,
+    619,
+    2037,
+    62,
+    885,
+    127,
+    964,
+    8,
+    24282,
+    769,
+    18716,
+    29784,
+    2
+   ],
+   "scores": [
+    0.6696388125419617,
+    0.78415447473526,
+    0.0016499958001077175,
+    0.005902358330786228,
+    0.054506462067365646,
+    0.0032662085723131895,
+    0.003532737260684371,
+    0.0033557980787009,
+    0.0016698167892172933,
+    0.002648344961926341,
+    0.004240220412611961,
+    0.001742641907185316,
+    0.0015090504894033074,
+    0.008183225989341736,
+    0.0005902036209590733,
+    0.008752439171075821,
+    0.0008690854301676154,
+    0.19319027662277222,
+    0.01283654198050499,
+    0.000705454614944756,
+    0.0064812530763447285,
+    0.003466370515525341,
+    0.01234107930213213,
+    0.004230854567140341,
+    0.0009144298383034766,
+    0.002697485964745283,
+    0.0023505366407334805,
+    0.00863808672875166
+   ],
+   "expectedValence": "positive"
+  },
+  {
+   "questionId": "q022",
+   "kind": "neutral",
+   "text": "idk normal i guess, just go do whatever's next",
+   "tokenIds": [
+    0,
+    808,
+    330,
+    2340,
+    939,
+    4443,
+    6,
+    95,
+    213,
+    109,
+    3046,
+    18,
+    220,
+    2
+   ],
+   "scores": [
+    0.005788553040474653,
+    0.003910471219569445,
+    0.0009578614844940603,
+    0.005418505519628525,
+    0.5024055242538452,
+    0.017746303230524063,
+    0.3216179609298706,
+    0.03118048422038555,
+    0.010052249766886234,
+    0.0027709035202860832,
+    0.012541571632027626,
+    0.001190340262837708,
+    0.0005893848720006645,
+    0.00659153563901782,
+    0.0027616156730800867,
+    0.004775489680469036,
+    0.0005157378618605435,
+    0.011146104894578457,
+    0.0037432736717164516,
+    0.0026269499212503433,
+    0.2230025827884674,
+    0.0008416553027927876,
+    0.04188840463757515,
+    0.003940732683986425,
+    0.0011837149504572153,
+    0.0009773271158337593,
+    0.0027986131608486176,
+    0.12646330893039703
+   ],
+   "expectedValence": "positive"
+  },
+  {
+   "questionId": "q022",
+   "kind": "negative",
+   "text": "lowkey awful. drained and anxious, like i wasted my whole night again",
+   "tokenIds": [
+    0,
+    5481,
+    5282,
+    11522,
+    4,
+    23544,
+    8,
+    13473,
+    6,
+    101,
+    939,
+    14260,
+    127,
+    1086,
+    363,
+    456,
+    2
+   ],
+   "scores": [
+    0.003154394682496786,
+    0.0035314953420311213,
+    0.013035333715379238,
+    0.08671220391988754,
+    0.008000337518751621,
+    0.010088901035487652,
+    0.011890827678143978,
+    0.008884496055543423,
+    0.007013349793851376,
+    0.10522660613059998,
+    0.017465921118855476,
+    0.04082930088043213,
+    0.014891939237713814,
+    0.01378915086388588,
+    0.21788401901721954,
+    0.0015679313801229,
+    0.003959327936172485,
+    0.009036999195814133,
+    0.004535601940006018,
+    0.23518936336040497,
+    0.002623476553708315,
+    0.0009645678219385445,
+    0.01032971777021885,
+    0.0037202273961156607,
+    0.002759561175480485,
+    0.11475935578346252,
+    0.0049055456183850765,
+    0.016925668343901634
+   ],
+   "expectedValence": "negative"
+  },
+  {
+   "questionId": "q013",
+   "kind": "positive",
+   "text": "in bed but tbh i love it, best part of my day, so many funny vids",
+   "tokenIds": [
+    0,
+    179,
+    3267,
+    53,
+    326,
+    22549,
+    939,
+    657,
+    24,
+    6,
+    275,
+    233,
+    9,
+    127,
+    183,
+    6,
+    98,
+    171,
+    6269,
+    748,
+    7823,
+    2
+   ],
+   "scores": [
+    0.19018490612506866,
+    0.39375120401382446,
+    0.0030784253031015396,
+    0.005305872298777103,
+    0.03022359311580658,
+    0.004754985682666302,
+    0.003419714281335473,
+    0.003056565299630165,
+    0.004317530430853367,
+    0.003919210750609636,
+    0.004559778608381748,
+    0.0017956788651645184,
+    0.0010371290845796466,
+    0.010616703890264034,
+    0.0007775285630486906,
+    0.006817023269832134,
+    0.0008449957822449505,
+    0.3135436773300171,
+    0.8325486779212952,
+    0.0009573218412697315,
+    0.008453021757304668,
+    0.0011974507942795753,
+    0.008512921631336212,
+    0.002203620271757245,
+    0.001806648331694305,
+    0.005799044854938984,
+    0.0024317316710948944,
+    0.005217615514993668
+   ],
+   "expectedValence": "positive"
+  },
+  {
+   "questionId": "q013",
+   "kind": "neutral",
+   "text": "usually in bed or on the bus",
+   "tokenIds": [
+    0,
+    33834,
+    11,
+    3267,
+    50,
+    15,
+    5,
+    2353,
+    2
+   ],
+   "scores": [
+    0.004154677037149668,
+    0.0013981302035972476,
+    0.001022431068122387,
+    0.003431025194004178,
+    0.030805092304944992,
+    0.0012082780012860894,
+    0.007878376170992851,
+    0.002473079599440098,
+    0.0009301610407419503,
+    0.00215969979763031,
+    0.0030841187108308077,
+    0.001294750371016562,
+    0.0004059605998918414,
+    0.0012661331566050649,
+    0.0010092739248648286,
+    0.001245340215973556,
+    0.00031799712451174855,
+    0.0017103495774790645,
+    0.0015569111565127969,
+    0.00034307080204598606,
+    0.0027855595108121634,
+    0.0002980499411933124,
+    0.009615439921617508,
+    0.0004220861883368343,
+    0.0003730624448508024,
+    0.0014514550566673279,
+    0.0006713044131174684,
+    0.955367386341095
+   ],
+   "expectedValence": "neutral"
+  },
+  {
+   "questionId": "q013",
+   "kind": "negative",
+   "text": "in bed every night and i hate it, i cant stop and i feel so gross after",
+   "tokenIds": [
+    0,
+    179,
+    3267,
+    358,
+    363,
+    8,
+    939,
+    4157,
+    24,
+    6,
+    939,
+    17672,
+    912,
+    8,
+    939,
+    619,
+    98,
+    4200,
+    71,
+    2
+   ],
+   "scores": [
+    0.004291574936360121,
+    0.0046799941919744015,
+    0.27416175603866577,
+    0.20912210643291473,
+    0.006860817316919565,
+    0.002631361363455653,
+    0.0036155562847852707,
+    0.00452778534963727,
+    0.004711698740720749,
+    0.03899286314845085,
+    0.04510965570807457,
+    0.5494366884231567,
+    0.010157540440559387,
+    0.0022723781876266003,
+    0.0075232600793242455,
+    0.0026907415594905615,
+    0.001783020212315023,
+    0.0026837897021323442,
+    0.01530606858432293,
+    0.001881563221104443,
+    0.0015585396904498339,
+    0.0005258017918094993,
+    0.0039121913723647594,
+    0.0005834698094986379,
+    0.0026181170251220465,
+    0.062063075602054596,
+    0.0016630198806524277,
+    0.01576690934598446
+   ],
+   "expectedValence": "negative"
+  },
+  {
+   "questionId": "q031",
+   "kind": "positive",
+   "text": "my best friend who moved away!! we send memes all day and it makes me so happy",
+   "tokenIds": [
+    0,
+    4783,
+    275,
+    1441,
+    54,
+    1410,
+    409,
+    12846,
+    52,
+    2142,
+    26995,
+    70,
+    183,
+    8,
+    24,
+    817,
+    162,
+    98,
+    1372,
+    2
+   ],
+   "scores": [
+    0.02048424817621708,
+    0.02744307368993759,
+    0.004427976440638304,
+    0.013237331993877888,
+    0.016988534480333328,
+    0.01048196293413639,
+    0.002297475701197982,
+    0.0018663485534489155,
+    0.009768486954271793,
+    0.04333522915840149,
+    0.0059212855994701385,
+    0.0018778902012854815,
+    0.00320032867603004,
+    0.012140489183366299,
+    0.002272787969559431,
+    0.009027834981679916,
+    0.01008556317538023,
+    0.7555117011070251,
+    0.033190950751304626,
+    0.0076644099317491055,
+    0.0036126694176346064,
+    0.004627677146345377,
+    0.018823174759745598,
+    0.03050069324672222,
+    0.00782781932502985,
+    0.29770275950431824,
+    0.00270722690038383,
+    0.019074242562055588
+   ],
+   "expectedValence": "positive"
+  },
+  {
+   "questionId": "q031",
+   "kind": "neutral",
+   "text": "some cousins i guess, we follow each other",
+   "tokenIds": [
+    0,
+    12465,
+    20005,
+    939,
+    4443,
+    6,
+    52,
+    1407,
+    349,
+    97,
+    2
+   ],
+   "scores": [
+    0.001709850737825036,
+    0.0019804819021373987,
+    0.0006897748680785298,
+    0.004153081681579351,
+    0.0729292705655098,
+    0.0009323809645138681,
+    0.14966405928134918,
+    0.008483398705720901,
+    0.0012509431689977646,
+    0.0028739881236106157,
+    0.00412872014567256,
+    0.0011694717686623335,
+    0.0006558357272297144,
+    0.0009672504384070635,
+    0.0009295846684835851,
+    0.0013726498000323772,
+    0.00030838215025141835,
+    0.0015948526561260223,
+    0.0026526383589953184,
+    0.0006010637735016644,
+    0.008796039037406445,
+    0.00025474809808656573,
+    0.08075907826423645,
+    0.0005869536544196308,
+    0.0007300555589608848,
+    0.0013168305158615112,
+    0.001972686732187867,
+    0.7114746570587158
+   ],
+   "expectedValence": "neutral"
+  },
+  {
+   "questionId": "q031",
+   "kind": "negative",
+   "text": "nobody really. everyone posts their perfect lives and i just feel lonely and left out",
+   "tokenIds": [
+    0,
+    33212,
+    9956,
+    269,
+    4,
+    961,
+    4570,
+    49,
+    1969,
+    1074,
+    8,
+    939,
+    95,
+    619,
+    20100,
+    8,
+    314,
+    66,
+    2
+   ],
+   "scores": [
+    0.009177121333777905,
+    0.0016342042945325375,
+    0.006374572869390249,
+    0.025073708966374397,
+    0.012203005142509937,
+    0.004605778027325869,
+    0.0024612736888229847,
+    0.0025390100199729204,
+    0.002529567340388894,
+    0.21634581685066223,
+    0.018036385998129845,
+    0.0035805271472781897,
+    0.0017923095729202032,
+    0.0010681571438908577,
+    0.0015080537414178252,
+    0.0009343303390778601,
+    0.011377708055078983,
+    0.004316691774874926,
+    0.006711090449243784,
+    0.003409357275813818,
+    0.001626937068067491,
+    0.00038319057784974575,
+    0.011836733669042587,
+    0.0014067995361983776,
+    0.004513285588473082,
+    0.7921679019927979,
+    0.0016337749548256397,
+    0.04267597198486328
+   ],
+   "expectedValence": "negative"
+  }
+ ],
+ "tokenizerCases": [
+  {
+   "text": "",
+   "tokenIds": [
+    0,
+    2
+   ]
+  },
+  {
+   "text": "   ",
+   "tokenIds": [
+    0,
+    1437,
+    1437,
+    1437,
+    2
+   ]
+  },
+  {
+   "text": "I'm NOT okay... 😞 #tired",
+   "tokenIds": [
+    0,
+    100,
+    437,
+    8127,
+    8578,
+    734,
+    17841,
+    17772,
+    849,
+    90,
+    7651,
+    2
+   ]
+  },
+  {
+   "text": "café naïve — “quotes” & numbers 123 4.5",
+   "tokenIds": [
+    0,
+    438,
+    2001,
+    1140,
+    39300,
+    93,
+    44,
+    48,
+    2253,
+    17467,
+    17,
+    46,
+    359,
+    1530,
+    17072,
+    204,
+    4,
+    245,
+    2
+   ]
+  }
+ ],
+ "combos": [
+  {
+   "code": "PPP",
+   "kinds": [
+    "positive",
+    "positive",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "positive"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "PP0",
+   "kinds": [
+    "positive",
+    "positive",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "neutral"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "PPN",
+   "kinds": [
+    "positive",
+    "positive",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "P0P",
+   "kinds": [
+    "positive",
+    "neutral",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "positive"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "P00",
+   "kinds": [
+    "positive",
+    "neutral",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "neutral"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "P0N",
+   "kinds": [
+    "positive",
+    "neutral",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "PNP",
+   "kinds": [
+    "positive",
+    "negative",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "positive"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "PN0",
+   "kinds": [
+    "positive",
+    "negative",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "neutral"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "PNN",
+   "kinds": [
+    "positive",
+    "negative",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "0PP",
+   "kinds": [
+    "neutral",
+    "positive",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "positive"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "0P0",
+   "kinds": [
+    "neutral",
+    "positive",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "neutral"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "0PN",
+   "kinds": [
+    "neutral",
+    "positive",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "positive",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "00P",
+   "kinds": [
+    "neutral",
+    "neutral",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "positive"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "000",
+   "kinds": [
+    "neutral",
+    "neutral",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "neutral"
+   ],
+   "expectedOverall": "positive"
+  },
+  {
+   "code": "00N",
+   "kinds": [
+    "neutral",
+    "neutral",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "neutral",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "0NP",
+   "kinds": [
+    "neutral",
+    "negative",
+    "positive"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "positive"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "0N0",
+   "kinds": [
+    "neutral",
+    "negative",
+    "neutral"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "neutral"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "0NN",
+   "kinds": [
+    "neutral",
+    "negative",
+    "negative"
+   ],
+   "answerValences": [
+    "positive",
+    "negative",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NPP",
+   "kinds": [
+    "negative",
+    "positive",
+    "positive"
+   ],
+   "answerValences": [
+    "negative",
+    "positive",
+    "positive"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NP0",
+   "kinds": [
+    "negative",
+    "positive",
+    "neutral"
+   ],
+   "answerValences": [
+    "negative",
+    "positive",
+    "neutral"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NPN",
+   "kinds": [
+    "negative",
+    "positive",
+    "negative"
+   ],
+   "answerValences": [
+    "negative",
+    "positive",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "N0P",
+   "kinds": [
+    "negative",
+    "neutral",
+    "positive"
+   ],
+   "answerValences": [
+    "negative",
+    "neutral",
+    "positive"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "N00",
+   "kinds": [
+    "negative",
+    "neutral",
+    "neutral"
+   ],
+   "answerValences": [
+    "negative",
+    "neutral",
+    "neutral"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "N0N",
+   "kinds": [
+    "negative",
+    "neutral",
+    "negative"
+   ],
+   "answerValences": [
+    "negative",
+    "neutral",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NNP",
+   "kinds": [
+    "negative",
+    "negative",
+    "positive"
+   ],
+   "answerValences": [
+    "negative",
+    "negative",
+    "positive"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NN0",
+   "kinds": [
+    "negative",
+    "negative",
+    "neutral"
+   ],
+   "answerValences": [
+    "negative",
+    "negative",
+    "neutral"
+   ],
+   "expectedOverall": "negative"
+  },
+  {
+   "code": "NNN",
+   "kinds": [
+    "negative",
+    "negative",
+    "negative"
+   ],
+   "answerValences": [
+    "negative",
+    "negative",
+    "negative"
+   ],
+   "expectedOverall": "negative"
+  }
+ ]
+}

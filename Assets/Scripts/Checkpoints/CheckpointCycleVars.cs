@@ -62,6 +62,8 @@ public class CheckpointCycleVars//represents an entire reflection and it's proce
     public string quoteId = "";
     public string quoteText = "";
     public string quoteAttribution = "";
+    //What the ML algorithm read from the three answers (overall valence + per-answer emotions)
+    public ReflectionEmotionResult emotion = new ReflectionEmotionResult();
     //players response to the ai's response
     public string playerReflectionText = "";
     //UTC timestamp (ISO 8601) of when the player submitted their final reflection

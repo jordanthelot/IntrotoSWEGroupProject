@@ -404,6 +404,7 @@ public class ReflectionManager : MonoBehaviour
         cycle.quoteId = feedback.quoteId;
         cycle.quoteText = feedback.quoteText;
         cycle.quoteAttribution = feedback.quotefrom;
+        cycle.emotion = feedback.emotion;
         cycle.stage = ReflectionStage.AwaitingPlayerReflection;
     }
 
