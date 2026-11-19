@@ -1,5 +1,8 @@
 
 {
+  "controlQuestionIdsNote": "Fixed first 3 questions, in order. q013 (time spent) matches Checkpoint_02 timeSpent. Pending team decision: to use q001 (motivation) instead, swap the names of the two lists below. The game ignores controlQuestionIdsAfterMeeting.",
+  "controlQuestionIds": ["q022", "q013", "q031"],
+  "controlQuestionIdsAfterMeeting": ["q022", "q001", "q031"],
   "questions": [
     {
       "questionId": "q001",

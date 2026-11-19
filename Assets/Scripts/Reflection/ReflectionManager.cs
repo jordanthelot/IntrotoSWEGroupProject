@@ -7,14 +7,7 @@ using System.Collections.Generic;
 
 public class ReflectionManager : MonoBehaviour
 {
-    [Header("Fixed first-cycle questions")]
-    [SerializeField]
-    private string[] firstCycleQuestionIds =
-    {
-        "q001",
-        "q021",
-        "q022"
-    };
+    //The fixed first 3 questions are set in QuestionBank.json (controlQuestionIds), not here
     [Header("Connections")]
 
     [SerializeField] private ReflectionAICall feedbackService;
@@ -263,28 +256,25 @@ public class ReflectionManager : MonoBehaviour
             }
 
 
-            //process for choosing the first three "fixed" questions
-            QuestionDefinition selectedQuestion;
+            //The first cycle of every playthrough always uses the control questions, in order (set in QuestionBank.json)
+            QuestionDefinition selectedQuestion = null;
             if (nextCycleNumber == 1)
             {
-                if (firstCycleQuestionIds == null || firstCycleQuestionIds.Length != 3 || new HashSet<string>(firstCycleQuestionIds).Count != 3)
-                {
-                    throw new InvalidOperationException("Assign three different first cycle-question IDs");
-                }
-
-                selectedQuestion = questionBank.GetQuestionById(firstCycleQuestionIds[index]);
+                selectedQuestion = questionBank.GetControlQuestion(index);
             }
-            else
+            //Otherwise, or if there are no control questions, pick a random unseen question
+            if (selectedQuestion == null)
             {
-                selectedQuestion = questionBank.GetRandomQuestion(excludedQuestionIds);
+                bool openingQuestion = nextCycleNumber == 1 && index == 0;
+                selectedQuestion = questionBank.GetRandomQuestion(excludedQuestionIds, opening: openingQuestion);
             }
             if (selectedQuestion == null)
             {
-                throw new InvalidOperationException("Question not found. Check the fixed Ids");
+                throw new InvalidOperationException("Every question has been used");
             }
             if (excludedQuestionIds.Contains(selectedQuestion.questionId))
             {
-                throw new InvalidOperationException("This question has already been used. Check the fixed IDs");
+                throw new InvalidOperationException("This question has already been used. Check controlQuestionIds in QuestionBank.json");
             }
             
             //Creates a new InProgress question, and only shows said question on screen
@@ -489,6 +479,7 @@ public class ReflectionManager : MonoBehaviour
         cycle.quoteId = feedback.quoteId;
         cycle.quoteText = feedback.quoteText;
         cycle.quoteAttribution = feedback.quotefrom;
+        cycle.emotion = feedback.emotion;
         cycle.stage = ReflectionStage.AwaitingPlayerReflection;
     }
 

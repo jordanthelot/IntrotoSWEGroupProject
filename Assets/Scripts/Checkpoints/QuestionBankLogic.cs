@@ -14,6 +14,8 @@ public class QuestionDefinition
 [Serializable]
 public class QuestionBankData
 {
+    //questionIds asked first, in this order, at the start of every playthrough
+    public List<string> controlQuestionIds;
     public List<QuestionDefinition> questions;
 }
 
@@ -22,6 +24,16 @@ public class QuestionBankLogic : MonoBehaviour
     [SerializeField] private TextAsset questionBankJson;//where the questionbank file will be attached
 
     private List<QuestionDefinition> questions;
+    private List<QuestionDefinition> controlQuestions = new List<QuestionDefinition>();
+
+    public int ControlQuestionCount
+    {
+        get
+        {
+            LoadQuestions();
+            return controlQuestions.Count;
+        }
+    }
 
     private void Awake()
     {
@@ -64,15 +76,43 @@ public class QuestionBankLogic : MonoBehaviour
                 throw new InvalidOperationException("Duplicate question ID: " + question.questionId);
             }
         }
-        questions = bank.questions;
+        //Control questions must point at real questions in the bank
+        List<QuestionDefinition> loadedControls = new List<QuestionDefinition>();
+        if (bank.controlQuestionIds != null)
+        {
+            foreach (string controlId in bank.controlQuestionIds)
+            {
+                QuestionDefinition control = bank.questions.Find(question => question.questionId == controlId);
+                if (control == null)
+                {
+                    throw new InvalidOperationException("Control question ID not found in the bank: " + controlId);
+                }
+                loadedControls.Add(control);
+            }
+        }
 
-        Debug.Log($"Question bank loaded: {questions.Count} questions");
+        questions = bank.questions;
+        controlQuestions = loadedControls;
+
+        Debug.Log($"Question bank loaded: {questions.Count} questions, {controlQuestions.Count} control questions");
     }
     public QuestionDefinition GetQuestionById(string questionId)
     {
         LoadQuestions();
 
         return questions.Find(question => question.questionId == questionId);//simply retrieving the question id from the json file
+    }
+
+    //Returns the control question for a position (0, 1, 2...), or null if there isn't one
+    public QuestionDefinition GetControlQuestion(int index)
+    {
+        LoadQuestions();
+
+        if (index < 0 || index >= controlQuestions.Count)
+        {
+            return null;
+        }
+        return controlQuestions[index];
     }
 
     public QuestionDefinition GetRandomQuestion(List<string> usedQuestionIds, bool opening = false, string topic = null)
