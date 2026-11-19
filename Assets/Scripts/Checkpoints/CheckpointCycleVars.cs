@@ -49,6 +49,7 @@ public class CheckpointQuestionData//reflects one question and it's response
 [Serializable]
 public class CheckpointCycleVars//represents an entire reflection and it's process
 {
+    public string feedbackCheckpointId = "";
     public string cycleId;
     public string checkpointId;
     public QuestionStatus status = QuestionStatus.NotStarted;

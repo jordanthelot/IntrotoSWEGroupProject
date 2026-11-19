@@ -96,7 +96,7 @@ public class QuestionBankLogic : MonoBehaviour
 
         Debug.Log($"Question bank loaded: {questions.Count} questions, {controlQuestions.Count} control questions");
     }
-    public QuestionDefinition GetQuestionbyId(string questionId)
+    public QuestionDefinition GetQuestionById(string questionId)
     {
         LoadQuestions();
 

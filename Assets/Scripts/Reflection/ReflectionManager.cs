@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 public class ReflectionManager : MonoBehaviour
 {
+    //The fixed first 3 questions are set in QuestionBank.json (controlQuestionIds), not here
     [Header("Connections")]
 
     [SerializeField] private ReflectionAICall feedbackService;
@@ -103,7 +104,7 @@ public class ReflectionManager : MonoBehaviour
             }
 
             // If the player was awaiting feedback from the AI and the game closes, the placeholder feedback is generated
-            if (loaded.stage == ReflectionStage.AwaitingFeedback)
+            if (loaded.stage == ReflectionStage.AwaitingFeedback && !string.IsNullOrWhiteSpace(loaded.feedbackCheckpointId))//the last condition checks whether the player has already reached the feedback checkpoint
             {
                 await PrepareFeedbackAsync(loaded);
                 await SaveCycleAsync(loaded);
@@ -156,7 +157,7 @@ public class ReflectionManager : MonoBehaviour
     }
 
     // Called by Checkpoint.cs or the T-key test.
-    public async void OnCheckpointReached(string checkpointId)
+    public async void OnCheckpointReached(string checkpointId, int CheckpointCycleNumber)
     {
         if (isBusy || isActivityOpen)
             return;
@@ -172,6 +173,15 @@ public class ReflectionManager : MonoBehaviour
         if(playerProgress.answeredCheckpointIds.Contains((checkpointId)))
             return;
 
+        int expectedCycleNumber = playerProgress.activeCycleNumber;
+        if (currentCycle.stage == ReflectionStage.Completed)
+        {
+            expectedCycleNumber++;
+        }
+        if (CheckpointCycleNumber != expectedCycleNumber)
+        {
+            return;//checking the cycle to make sure questions from cycle 1/2 are not appearing on 3
+        }
         //if we are not collecting answers and the current cycle is not yet completed, stop
         if (currentCycle.stage != ReflectionStage.CollectingAnswers && currentCycle.stage != ReflectionStage.Completed)
         {
@@ -262,6 +272,11 @@ public class ReflectionManager : MonoBehaviour
             {
                 throw new InvalidOperationException("Every question has been used");
             }
+            if (excludedQuestionIds.Contains(selectedQuestion.questionId))
+            {
+                throw new InvalidOperationException("This question has already been used. Check controlQuestionIds in QuestionBank.json");
+            }
+            
             //Creates a new InProgress question, and only shows said question on screen
             CheckpointQuestionData question = new CheckpointQuestionData
             {
@@ -297,6 +312,66 @@ public class ReflectionManager : MonoBehaviour
                 reflectionUI.ShowError(error);
         }
     }
+
+    public async void OnFeedbackCheckpointReached(string checkpointId, int checkpointCycleNumber)
+    {
+        if (isBusy || isActivityOpen || currentCycle == null)
+        {
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(checkpointId))
+        {
+            reflectionUI.ShowError("This feedback checkpoint needs an ID");
+            return;
+        }
+        //cycle check
+        if (checkpointCycleNumber != playerProgress.activeCycleNumber || currentCycle.stage == ReflectionStage.Completed)
+        {
+            return;
+        }
+        if (currentCycle.stage != ReflectionStage.AwaitingFeedback)
+        {
+            reflectionUI.ShowError("Answer this cycle's three questions");
+            return;
+        }
+        isBusy = true;
+        reflectionUI.SetBusy(true);
+        string error = null;
+
+        try
+        {
+            isActivityOpen = true;
+            reflectionUI.ShowReflection("Preparin the feedback");
+            CheckpointCycleVars updated = JsonUtility.FromJson<CheckpointCycleVars>(JsonUtility.ToJson(currentCycle));
+
+            //Saving players progress up to this point, before feedback is requested
+            updated.feedbackCheckpointId = checkpointId;
+            await SaveCycleAsync(updated);
+
+            updated = JsonUtility.FromJson<CheckpointCycleVars>(JsonUtility.ToJson(currentCycle));//prepare a fresh copy to show the user
+            await PrepareFeedbackAsync(updated);//we get our feedback back
+            await SaveCycleAsync(updated);
+            reflectionUI.ShowFeedback(currentCycle);
+
+        }
+        catch (Exception x)
+        {
+            Debug.LogException(x);
+            isActivityOpen = false;
+            reflectionUI.CloseReflection();
+            error = "Could not prepare feedback";
+        }
+        finally
+        {
+            isBusy = false;
+            reflectionUI.SetBusy(false);
+            if (error != null)
+            {
+                reflectionUI.ShowError(error);
+            }
+        }
+    }
+
 
     // Handles both checkpoint answers and the final reflection. 
     private async void SubmitResponse(string answerText)
@@ -344,7 +419,7 @@ public class ReflectionManager : MonoBehaviour
 
                 //This feedback is supposed to be the AI's response
                 if (allThreeAnswered)
-                    await PrepareFeedbackAsync(updated);
+                    updated.stage = ReflectionStage.AwaitingFeedback;
             }
             //if the submit button is hit after the player submits there reflection, process is complete
             else if (
@@ -449,31 +524,6 @@ public class ReflectionManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             LoadCycleAsync();
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (currentCycle == null)
-            {
-                reflectionUI.ShowError("Press R to load the cycle first.");
-                return;
-            }
-
-            int nextCheckpointNumber;// initialize for testing
-
-            if (currentCycle.stage == ReflectionStage.Completed)
-            {
-                //Cycle 1 -> completed at checkpiont 4
-                nextCheckpointNumber = playerProgress.activeCycleNumber * 3 + 1;
-            }
-            else
-            {
-                nextCheckpointNumber = (playerProgress.activeCycleNumber - 1) * 3 + currentCycle.questions.Count + 1;
-            }
-
-
-
-            OnCheckpointReached(
-                $"test_checkpoint_{nextCheckpointNumber}");
         }
     }
 }
