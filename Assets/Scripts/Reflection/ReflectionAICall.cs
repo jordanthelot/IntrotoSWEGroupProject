@@ -20,7 +20,7 @@ public class ReflectionAICall : MonoBehaviour
 {
     [Header("Feedback Backend")]
     [SerializeField]
-    private string feedbackUrl = "http://127.0.0.1:8000/feedback";
+    private string feedbackUrl = "https://the-mirror-feedback.onrender.com/";
 
     [Serializable]
     private class QuestionAnswerPayload
@@ -82,7 +82,7 @@ public class ReflectionAICall : MonoBehaviour
             request.SetRequestHeader(
                 "Accept", "application/json");
 
-            request.timeout = 60;
+            request.timeout = 180;
 
             await Awaitable.FromAsyncOperation(
                 request.SendWebRequest());
