@@ -2,9 +2,9 @@
 import json
 import os
 from pathlib import Path
-
+from auth import require_player
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from openai import (
     AsyncOpenAI,
     AuthenticationError,
@@ -133,7 +133,7 @@ async def health():
     return {"status": "ok"}
 
 
-@app.post("/feedback", response_model=FeedbackResponse)
+@app.post("/feedback", response_model=FeedbackResponse, dependencies =[Depends(require_player)],)
 async def generate_feedback(request: FeedbackRequest):
     if len({q.questionId for q in request.questions}) != 3:
         raise HTTPException(

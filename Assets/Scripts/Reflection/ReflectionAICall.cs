@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using Unity.Services.Authentication;
 using UnityEngine.Networking;
 //I changed Raul's logic for returning the ML program variables
 [Serializable]
@@ -40,6 +41,10 @@ public class ReflectionAICall : MonoBehaviour
         List<CheckpointQuestionData> questions
     )
     {
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            throw new InvalidOperationException("Sign in before requesting feedback");
+        }
         if (questions == null || questions.Count != 3)
         {
             throw new InvalidOperationException("AI response needs 3 questions.");
@@ -68,7 +73,10 @@ public class ReflectionAICall : MonoBehaviour
         {
             request.uploadHandler = new UploadHandlerRaw(body);
             request.downloadHandler = new DownloadHandlerBuffer();
-
+            request.SetRequestHeader(
+                "Authorization",
+                "Bearer " + AuthenticationService.Instance.AccessToken
+            );
             request.SetRequestHeader(
                 "Content-Type", "application/json");
             request.SetRequestHeader(
@@ -80,11 +88,12 @@ public class ReflectionAICall : MonoBehaviour
                 request.SendWebRequest());
 
             if (request.result != UnityWebRequest.Result.Success)
-            {
-                throw new InvalidOperationException(
-                    $"Feedback request failed " +
-                    $"(HTTP {request.responseCode}): {request.error}");
-            }
+{
+    throw new InvalidOperationException(
+        $"Feedback request failed " +
+        $"(HTTP {request.responseCode}): " +
+        request.downloadHandler.text);
+}
 
             ReflectionFeedbackData feedback =
                 JsonUtility.FromJson<ReflectionFeedbackData>(
