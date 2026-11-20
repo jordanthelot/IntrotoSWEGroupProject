@@ -102,16 +102,13 @@ public class ReflectionManager : MonoBehaviour
                         "The saved cycle has an unsupported format.");
                 }
             }
-
+            currentCycle = loaded;
             // If the player was awaiting feedback from the AI and the game closes, the placeholder feedback is generated
             if (loaded.stage == ReflectionStage.AwaitingFeedback && !string.IsNullOrWhiteSpace(loaded.feedbackCheckpointId))//the last condition checks whether the player has already reached the feedback checkpoint
             {
-                await PrepareFeedbackAsync(loaded);
-                await SaveCycleAsync(loaded);
-            }
-            else
-            {
-                currentCycle = loaded;
+                CheckpointCycleVars updated = JsonUtility.FromJson<CheckpointCycleVars>(JsonUtility.ToJson(loaded));
+                await PrepareFeedbackAsync(updated);
+                await SaveCycleAsync(updated);
             }
             //flags to control at what stage of the cycle the game is in, i.e. is the player awaiting feedback, are they answering questions, etc.
             if (currentCycle.stage ==
@@ -341,7 +338,7 @@ public class ReflectionManager : MonoBehaviour
         try
         {
             isActivityOpen = true;
-            reflectionUI.ShowReflection("Preparin the feedback");
+            reflectionUI.ShowReflection("Preparing the feedback...");
             CheckpointCycleVars updated = JsonUtility.FromJson<CheckpointCycleVars>(JsonUtility.ToJson(currentCycle));
 
             //Saving players progress up to this point, before feedback is requested
@@ -470,7 +467,7 @@ public class ReflectionManager : MonoBehaviour
     // ISO 8601 round-trip format, always UTC (ends in "Z"). JsonUtility can't save DateTime, so we store a string.
     private static string UtcNow() => DateTime.UtcNow.ToString("o");
 
-    // Temporary content, not an actual AI request.
+
     private async Task PrepareFeedbackAsync(CheckpointCycleVars cycle)
     {
         ReflectionFeedbackData feedback = await feedbackService.GenerateFeedbackAsync(cycle.questions);
@@ -479,7 +476,6 @@ public class ReflectionManager : MonoBehaviour
         cycle.quoteId = feedback.quoteId;
         cycle.quoteText = feedback.quoteText;
         cycle.quoteAttribution = feedback.quotefrom;
-        cycle.emotion = feedback.emotion;
         cycle.stage = ReflectionStage.AwaitingPlayerReflection;
     }
 
