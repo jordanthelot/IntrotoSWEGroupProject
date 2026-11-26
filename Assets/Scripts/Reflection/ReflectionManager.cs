@@ -28,11 +28,36 @@ public class ReflectionManager : MonoBehaviour
     private bool isActivityOpen;//true while a question is progress or reflection panel is showing
 
     // Temporary questions until the question bank is ready.- they were placed here
-   
 
+    public bool CanReturnToMainMenu =>
+    isActiveAndEnabled && !isBusy && !isActivityOpen;
+    public void ReturnToMainMenu()
+    {
+       if (!CanReturnToMainMenu)
+{
+    return;
+}
+        if (!Application.CanStreamedLevelBeLoaded("MainMenu"))
+        {
+            Debug.LogError("Add MainMenu to active Build profile");
+            return;
+        }
+        isBusy = true;
+        try
+        {
+            reflectionUI.CloseReflection();
+            Time.timeScale = 1f;
+            UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("MainMenu");
+        }
+        catch (Exception e)
+        {
+            isBusy = false;
+            Debug.LogException(e);
+        }
+    }
     private void Awake()
     {
-        if (saveService == null || reflectionUI == null || questionBank == null || feedbackService == null) 
+        if (saveService == null || reflectionUI == null || questionBank == null || feedbackService == null)
         {
             Debug.LogError(
                 "Assign the save service and reflection UI and question bank in the Inspector. Or the AI service");

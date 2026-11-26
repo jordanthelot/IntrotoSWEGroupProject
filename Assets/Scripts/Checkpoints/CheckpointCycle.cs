@@ -7,6 +7,7 @@ using System.Collections.Generic; //allows us to use high-performance data struc
 using System;
 
 
+
 //this file handles the event that for some reason, a user session ends at the middle of a checkpoint, and we need to save their reflection status and load it for them when they come back
 public class CheckpointCycle : MonoBehaviour
 {
@@ -139,6 +140,37 @@ public class CheckpointCycle : MonoBehaviour
         }
 
         return null;
+    }
+
+    public async Task<List<CheckpointCycleVars>> LoadReflectionHistoryAsync()//holding a list of checkpointcyclevars (a file containing all the info pertaining to the checkpoints/reflection)
+    {
+        CheckReady();
+        var savedData = await CloudSaveService.Instance.Data.Player.LoadAllAsync();// save the data
+        var history = new List<CheckpointCycleVars>();// the instance of the checkpointcyclevars that we are going to be showing
+        foreach (var entry in savedData)
+        {
+            if (!entry.Key.StartsWith("reflectionCycle_", StringComparison.Ordinal))
+            {
+                continue;
+            }
+            try
+            {
+                string json = entry.Value.Value.GetAs<string>();
+                CheckpointCycleVars cycle = JsonUtility.FromJson<CheckpointCycleVars>(json);
+                if (cycle == null || cycle.stage != ReflectionStage.Completed || string.IsNullOrWhiteSpace(cycle.AIResponse))
+                {
+                    continue;
+                }
+                history.Add(cycle);
+            }
+            catch (Exception)
+            {
+                Debug.LogWarning($"Could not read saved reflection: {entry.Key}");
+            }
+
+        }
+        history.Sort((a, b) => string.CompareOrdinal(b.completedAtUtc, a.completedAtUtc));
+        return history;
     }
 
 
